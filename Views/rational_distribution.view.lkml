@@ -19,10 +19,8 @@ view: rational_distribution {
       ),
       stats AS (
           SELECT
-              agency_id, client_id, campaign_id, job_group_id, publisher_id, event_publisher_date,
-              SUM(cd_spend) AS CDSpend,
-              SUM(clicks) AS clicks,
-              SUM(applies) AS applies
+              publisher_id,
+              SUM(cd_spend) AS CDSpend
           FROM
               tracking.modelled.VIEW_GROUPED_COMBINED_EVENTS vte
               JOIN client_info ON vte.client_id = client_info.id
@@ -33,33 +31,15 @@ view: rational_distribution {
              {% condition date_filter %} event_publisher_date {% endcondition %}
               AND should_contribute_to_joveo_stats = TRUE
           GROUP BY
-              agency_id, client_id, campaign_id, job_group_id, publisher_id, event_publisher_date
+              publisher_id order by sum(cd_spend) desc
       ),
       stats2 AS (
           SELECT
               publisher_id
           FROM
               stats
-          WHERE
-              EXISTS (
-                  SELECT
-                      1
-                  FROM
-                      (
-                          SELECT
-                              publisher_id, SUM(cdspend) AS total_cdspend
-                          FROM
-                              stats
-                          GROUP BY
-                              publisher_id
-                          ORDER BY
-                              total_cdspend DESC
-                          LIMIT
-                              4
-                      ) AS top_4_publishers
-                  WHERE
-                      top_4_publishers.publisher_id = stats.publisher_id
-              )
+          LIMIT
+              4
       )
           SELECT
               CASE
