@@ -1,6 +1,6 @@
 # Define the database connection to be used for this model.
 connection: "idp"
-include: "/Views/*.view.lkml"                # include all views in the views/ folder in this project
+include: "/views/*.view.lkml"                # include all views in the views/ folder in this project
 
 datagroup: ui_client_dashboard_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -118,6 +118,39 @@ explore: view_combined_event {
   join: publisher_name_override {
     type: left_outer
     sql_on: ${view_combined_event.publisher_id} = ${publisher_name_override.publisher_id} and ${view_combined_event.agency_id} = ${publisher_name_override.agency_id}  ;;
+    relationship: many_to_one
+  }
+}
+explore: view_tracking_event {
+  sql_always_where: ${should_contribute_to_joveo_stats} = TRUE ;;
+  join: jg_info {
+    type: left_outer
+    sql_on: ${view_tracking_event.JOB_GROUP_ID}= ${jg_info.job_group_id} ;;
+    relationship: many_to_one
+  }
+  join: jg_budget {
+    type: left_outer
+    sql_on: ${view_tracking_event.JOB_GROUP_ID} = ${jg_budget.job_group_id} ;;
+    relationship: many_to_one
+  }
+  join: campaign_info {
+    type: left_outer
+    sql_on: ${view_tracking_event.campaign_id} = ${campaign_info.campaign_id} ;;
+    relationship: many_to_one
+  }
+  join: client_info {
+    type: left_outer
+    sql_on: ${view_tracking_event.client_id} = ${client_info.client_id} ;;
+    relationship: many_to_one
+  }
+  join: agency_info {
+    type: left_outer
+    sql_on: ${view_tracking_event.agency_id} = ${agency_info.agency_id} ;;
+    relationship: many_to_one
+  }
+  join: loc_normalisation {
+    type: left_outer
+    sql_on:  ${view_tracking_event.job_city}=${loc_normalisation.job_city} and ${loc_normalisation.job_state} = ${view_tracking_event.job_state} and ${loc_normalisation.job_country} = ${view_tracking_event.job_country} ;;
     relationship: many_to_one
   }
 }
