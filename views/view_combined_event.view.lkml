@@ -40,22 +40,22 @@ view: view_combined_event {
   measure: clicks_measure {
     type: sum
     sql: ${TABLE}.clicks ;;
-    value_format: "#,##0.00"
+    value_format: "#,##0"
   }
   measure: applies_measure {
     type: sum
     sql: ${TABLE}.applies ;;
-    value_format: "#,##0.00"
+    value_format: "#,##0"
   }
   measure: apply_starts_measure {
     type: sum
     sql: ${TABLE}.apply_starts ;;
-    value_format: "#,##0.00"
+    value_format: "#,##0"
   }
   measure: hires {
     type: sum
     sql: ${TABLE}.hires ;;
-    value_format: "#,##0.00"
+    value_format: "#,##0"
   }
   measure: cpc {
     type: number
