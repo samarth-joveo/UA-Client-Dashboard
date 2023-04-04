@@ -66,6 +66,14 @@ view: view_combined_event {
   }
   measure: cta {
     type: number
-    sql: iff(${clicks_measure}=0,0,${applies_measure}/${clicks_measure}) ;;
+    sql: iff(${clicks_measure}=0,0,${applies_measure}*100/${clicks_measure}) ;;
+  }
+  measure: ctas {
+    type: number
+    sql: iff(${clicks_measure}=0,0,${apply_starts_measure}*100/${clicks_measure}) ;;
+  }
+  measure: ath {
+    type: number
+    sql: iff(${applies_measure}=0,0,${hires}*100/${applies_measure}) ;;
   }
 }
