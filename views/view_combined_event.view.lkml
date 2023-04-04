@@ -35,45 +35,56 @@ view: view_combined_event {
   measure: cd_spend_measure {
     type: sum
     sql: ${TABLE}.cd_spend ;;
+    value_format: "#,##0.00"
   }
   measure: clicks_measure {
     type: sum
     sql: ${TABLE}.clicks ;;
+    value_format: "#,##0.00"
   }
   measure: applies_measure {
     type: sum
     sql: ${TABLE}.applies ;;
+    value_format: "#,##0.00"
   }
   measure: apply_starts_measure {
     type: sum
     sql: ${TABLE}.apply_starts ;;
+    value_format: "#,##0.00"
   }
   measure: hires {
     type: sum
     sql: ${TABLE}.hires ;;
+    value_format: "#,##0.00"
   }
   measure: cpc {
     type: number
     sql: iff(${clicks_measure}=0,0,${cd_spend_measure}/${clicks_measure}) ;;
+    value_format: "0.##"
   }
   measure: cpa {
     type: number
     sql: iff(${applies_measure}=0,0,${cd_spend_measure}/${applies_measure}) ;;
+    value_format: "0.##"
   }
   measure: cph {
     type: number
     sql: iff(${hires}=0,0,${cd_spend_measure}/${hires}) ;;
+    value_format: "0.##"
   }
   measure: cta {
     type: number
     sql: iff(${clicks_measure}=0,0,${applies_measure}*100/${clicks_measure}) ;;
+    value_format: "0.##%"
   }
   measure: ctas {
     type: number
     sql: iff(${clicks_measure}=0,0,${apply_starts_measure}*100/${clicks_measure}) ;;
+    value_format: "0.##%"
   }
   measure: ath {
     type: number
     sql: iff(${applies_measure}=0,0,${hires}*100/${applies_measure}) ;;
+    value_format: "0.##%"
   }
 }

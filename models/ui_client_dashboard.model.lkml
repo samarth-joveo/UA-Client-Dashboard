@@ -16,36 +16,6 @@ explore: jg_info {}
 explore: jg_budget {}
 explore: agency_info {}
 explore: publisher_name {}
-explore: source_wise_spend {
-  join: publisher_name {
-    type: left_outer
-    sql_on: ${source_wise_spend.publisher} =  ${publisher_name.publisher_id};;
-    relationship: many_to_one
-  }
-  join: publisher_name_override {
-    type: left_outer
-    sql_on: ${source_wise_spend.publisher} = ${publisher_name_override.publisher_id} and ${source_wise_spend.agency_id} = ${publisher_name_override.agency_id} ;;
-    relationship: many_to_one
-  }
-}
-explore: rational_distribution {
-  join: publisher_name {
-    type: left_outer
-    sql_on: ${rational_distribution.publisher} =  ${publisher_name.publisher_id};;
-    relationship: many_to_one
-  }
-  join: publisher_name_override {
-    type: left_outer
-    sql_on: ${rational_distribution.publisher} = ${publisher_name_override.publisher_id} and ${rational_distribution.agency_id} = ${publisher_name_override.agency_id} ;;
-    relationship: many_to_one
-  }
-  join: loc_normalisation {
-    type: left_outer
-    sql_on: ${rational_distribution.job_city} = ${loc_normalisation.job_city} and ${loc_normalisation.job_state} = ${rational_distribution.job_state} and ${loc_normalisation.job_country} = ${rational_distribution.job_country} ;;
-    relationship: many_to_one
-  }
-
-}
 explore: trend_comparison {
   join: publisher_name {
     type: left_outer
