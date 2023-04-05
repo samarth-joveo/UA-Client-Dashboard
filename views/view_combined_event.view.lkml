@@ -4,6 +4,27 @@ view: view_combined_event {
     type: yesno
     sql: ${TABLE}.SHOULD_CONTRIBUTE_TO_JOVEO_STATS ;;
   }
+  parameter: measure_names {
+    type: unquoted
+    allowed_value: {
+      label: "Applies"
+      value: "app"
+    }
+    allowed_value: {
+      label: "SignUps"
+      value: "su"
+    }
+  }
+  measure: applies_dynamic_name {
+    label: "{% if measure_names._parameter_value == 'app' %}
+      Applies-1
+    {% else %}
+      SignUps-1
+    {% endif %}"
+    type: number
+    sql: ${Applies} ;;
+    value_format: "#,##0"
+  }
 
   dimension: date {
     type: date
@@ -80,8 +101,10 @@ view: view_combined_event {
     value_format: "0.##%"
   }
   measure: ath {
+    label: "ATH"
     type: number
     sql: iff(${Applies}=0,0,${Hires}*100/${Applies}) ;;
     value_format: "0.##%"
   }
+
 }
