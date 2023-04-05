@@ -18,6 +18,10 @@ view: campaign_info {
           else budget_value
           end ;;
   }
+  dimension: campaign_status {
+    type: string
+    sql: ${TABLE}.status ;;
+  }
   measure: total_campaign_budget {
     type: sum
     sql: ${campaign_budget} ;;
