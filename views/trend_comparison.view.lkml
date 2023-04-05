@@ -103,14 +103,11 @@ view: trend_comparison {
     type: string
     sql: ${TABLE}.Prev_Current ;;
   }
-  measure: total_cd_spend {
+  measure: Spend {
     type: sum
     sql: ${TABLE}.cdspend ;;
   }
-  dimension: publisher_name {
-    type: string
-    sql: coalesce(${publisher_name_override.name},${publisher_name.name}) ;;
-  }
+
   parameter: period_selection {
     type: unquoted
     allowed_value: {

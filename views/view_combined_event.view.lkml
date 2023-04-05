@@ -4,10 +4,7 @@ view: view_combined_event {
     type: yesno
     sql: ${TABLE}.SHOULD_CONTRIBUTE_TO_JOVEO_STATS ;;
   }
-  dimension: publisher_name {
-    type: string
-    sql: coalesce(${publisher_name_override.name},${publisher_name.name}) ;;
-  }
+
   dimension: date {
     type: date
     sql: ${TABLE}.event_publisher_date ;;
@@ -32,59 +29,59 @@ view: view_combined_event {
     type: string
     sql: ${TABLE}.publisher_id ;;
   }
-  measure: cd_spend_measure {
+  measure: Spend {
     type: sum
     sql: ${TABLE}.cd_spend ;;
     value_format: "#,##0.00"
   }
-  measure: clicks_measure {
+  measure: Clicks {
     type: sum
     sql: ${TABLE}.clicks ;;
     value_format: "#,##0"
   }
-  measure: applies_measure {
+  measure: Applies {
     type: sum
     sql: ${TABLE}.applies ;;
     value_format: "#,##0"
   }
-  measure: apply_starts_measure {
+  measure: Apply_Starts {
     type: sum
     sql: ${TABLE}.apply_starts ;;
     value_format: "#,##0"
   }
-  measure: hires {
+  measure: Hires {
     type: sum
     sql: ${TABLE}.hires ;;
     value_format: "#,##0"
   }
-  measure: cpc {
+  measure: CPC {
     type: number
-    sql: iff(${clicks_measure}=0,0,${cd_spend_measure}/${clicks_measure}) ;;
+    sql: iff(${Clicks}=0,0,${Spend}/${Clicks}) ;;
     value_format: "0.##"
   }
-  measure: cpa {
+  measure: CPA {
     type: number
-    sql: iff(${applies_measure}=0,0,${cd_spend_measure}/${applies_measure}) ;;
+    sql: iff(${Applies}=0,0,${Spend}/${Applies}) ;;
     value_format: "0.##"
   }
-  measure: cph {
+  measure: CPH {
     type: number
-    sql: iff(${hires}=0,0,${cd_spend_measure}/${hires}) ;;
+    sql: iff(${Hires}=0,0,${Spend}/${Hires}) ;;
     value_format: "0.##"
   }
-  measure: cta {
+  measure: CTA {
     type: number
-    sql: iff(${clicks_measure}=0,0,${applies_measure}*100/${clicks_measure}) ;;
+    sql: iff(${Clicks}=0,0,${Applies}*100/${Clicks}) ;;
     value_format: "0.##%"
   }
-  measure: ctas {
+  measure: CTAS {
     type: number
-    sql: iff(${clicks_measure}=0,0,${apply_starts_measure}*100/${clicks_measure}) ;;
+    sql: iff(${Clicks}=0,0,${Apply_Starts}*100/${Clicks}) ;;
     value_format: "0.##%"
   }
   measure: ath {
     type: number
-    sql: iff(${applies_measure}=0,0,${hires}*100/${applies_measure}) ;;
+    sql: iff(${Applies}=0,0,${Hires}*100/${Applies}) ;;
     value_format: "0.##%"
   }
 }

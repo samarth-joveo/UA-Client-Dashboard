@@ -14,7 +14,7 @@ dimension: publisher_id {
     type: string
     sql: ${TABLE}.agency_id ;;
   }
-dimension: name {
+dimension: Publisher {
   type: string
   sql: ${TABLE}.name ;;
 }

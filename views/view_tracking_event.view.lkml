@@ -40,18 +40,18 @@ view: view_tracking_event {
     type: string
     sql: ${TABLE}.publisher_id ;;
   }
-  dimension: publisher_name {
+  dimension: Publisher {
     type: string
     sql: ${TABLE}.publisher_name ;;
   }
-  measure: cd_spend_measure {
+  measure: Spend {
     type: sum
     sql: case
     when ${TABLE}.is_valid = true then (${TABLE}.event_spend * (1E0 / (1E0 - (${TABLE}.publisher_entity_markdown / 100))) * (1E0 + (${TABLE}.agency_markup / 100)) * (1E0 + (${TABLE}.effective_cd_markup / 100)) * ${TABLE}.d_logic_ratio)
     else 0E0
   end  ;;
   }
-  measure: clicks_measure {
+  measure: Clicks {
     type: sum
     sql: case when (
         ${TABLE}.event_type = 'CLICK'
@@ -60,7 +60,7 @@ view: view_tracking_event {
       else 0
     end ;;
   }
-  measure: applies_measure {
+  measure: Applies {
     type: sum
     sql: case
       when (
@@ -70,7 +70,7 @@ view: view_tracking_event {
       else 0
     end ;;
   }
-  measure: hires {
+  measure: Hires {
     type: sum
     sql: sum(case
       when (
@@ -84,21 +84,21 @@ view: view_tracking_event {
     type: string
     sql: dayname(${date})  ;;
   }
-  measure: cpc {
+  measure: CPC {
     type: number
-    sql: iff(${clicks_measure}=0,0,${cd_spend_measure}/${clicks_measure}) ;;
+    sql: iff(${Clicks}=0,0,${Spend}/${Clicks}) ;;
   }
-  measure: cpa {
+  measure: CPA {
     type: number
-    sql: iff(${applies_measure}=0,0,${cd_spend_measure}/${applies_measure}) ;;
+    sql: iff(${Applies}=0,0,${Spend}/${Applies}) ;;
   }
-  measure: cph {
+  measure: CPH {
     type: number
-    sql: iff(${hires}=0,0,${cd_spend_measure}/${hires}) ;;
+    sql: iff(${Hires}=0,0,${Spend}/${Hires}) ;;
   }
-  measure: cta {
+  measure: CTA {
     type: number
-    sql: iff(${clicks_measure}=0,0,${applies_measure}/${clicks_measure}) ;;
+    sql: iff(${Clicks}=0,0,${Applies}/${Clicks}) ;;
   }
   dimension: time_split {
     type: string
